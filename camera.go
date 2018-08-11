@@ -1,7 +1,6 @@
 package camera
 
 import (
-	"fmt"
 	"os/exec"
 	"path/filepath"
 	"time"
@@ -52,11 +51,11 @@ func (c *Camera) Capture() (string, error) {
 	cmd := exec.Command(STILL, OUTFLAG, fullPath)
 	_, err := cmd.StdoutPipe()
 	if err != nil {
-		fmt.Println(err)
+	 	return fullPath, err	
 	}
 	err = cmd.Start()
 	if err != nil {
-		fmt.Println(err)
+		return fullPath, err 
 	}
 	cmd.Wait()
 	return fullPath, nil
