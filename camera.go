@@ -3,74 +3,78 @@ package camera
 import (
 	"os/exec"
 	"path/filepath"
-	"time"
 	"strconv"
+	"time"
 )
 
 const (
-	STILL      = "raspistill"
-	TLAPSE     = "-tl"
-	TIMEOUT    = "-t"
-	OUTFLAG    = "-o"
-	FILE_TYPE  = ".jpg"
-	TIME_STAMP = "2006-01-02_15:04:05"
+	still     = "raspistill"
+	tlapse    = "-tl"
+	timeout   = "-t"
+	output    = "-o"
+	filetype  = ".jpg"
+	timestamp = "2006-01-02_15:04:05"
 
-	DEFAULT_TIMEOUT   = 1
-	NO_TIMELAPSE = -1
+	defaultTimeout = 1
+	noTimelapse    = -1
 )
 
+// Camera with params
 type Camera struct {
-	params		Params	
+	params params
 }
 
-type Params struct {
-	timeout		int
-	timelapse	int
-	path		string
-	filename	string
+type params struct {
+	timeout   int
+	timelapse int
+	path      string
+	filename  string
 }
 
+// New Camera with path
 func New(path string) *Camera {
-	return &Camera{Params{DEFAULT_TIMEOUT,NO_TIMELAPSE, path, getDefaultFilename()}}
+	return &Camera{params{defaultTimeout, noTimelapse, path, getDefaultFilename()}}
 }
 
+// NewTimelapsed Camera with path and timelapse interval
 func NewTimelapsed(path string, timelapse int) *Camera {
-	return &Camera{Params{DEFAULT_TIMEOUT, timelapse, path, getTimeLapseFilename("data")}}
+	return &Camera{params{defaultTimeout, timelapse, path, getTimeLapseFilename("data")}}
 }
 
-func makeArgs(p Params) ([]string) {
+func makeArgs(p params) []string {
 	args := make([]string, 0)
-	args = append(args, TIMEOUT)
+	args = append(args, timeout)
 	args = append(args, strconv.Itoa(p.timeout))
-	if(p.timelapse != NO_TIMELAPSE) {
-		args = append(args, TLAPSE)
+	if p.timelapse != noTimelapse {
+		args = append(args, tlapse)
 		args = append(args, strconv.Itoa(p.timelapse))
 	}
-	args = append(args, OUTFLAG)
-	args = append(args, filepath.Join(p.path, p.filename))		
+	args = append(args, output)
+	args = append(args, filepath.Join(p.path, p.filename))
 	return args
 }
 
-func getDefaultFilename() (string) {
-	return time.Now().Format(TIME_STAMP) + FILE_TYPE
+func getDefaultFilename() string {
+	return time.Now().Format(timestamp) + filetype
 }
 
-func getTimeLapseFilename(prefix string) (string) {
-	return prefix + "_%04d" + FILE_TYPE
+func getTimeLapseFilename(prefix string) string {
+	return prefix + "_%04d" + filetype
 }
 
+// Capture an image or a timelapse
 func (c *Camera) Capture() (string, error) {
-	args := makeArgs(c.params)	
-        fullPath := filepath.Join(c.params.path,c.params.filename)
+	args := makeArgs(c.params)
+	fullPath := filepath.Join(c.params.path, c.params.filename)
 
-	cmd := exec.Command(STILL, args...)
+	cmd := exec.Command(still, args...)
 	_, err := cmd.StdoutPipe()
 	if err != nil {
-	 	return fullPath, err	
+		return fullPath, err
 	}
 	err = cmd.Start()
 	if err != nil {
-		return fullPath, err 
+		return fullPath, err
 	}
 	cmd.Wait()
 	return fullPath, nil
