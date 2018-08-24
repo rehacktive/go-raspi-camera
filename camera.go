@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-// TODO refactor
-// remove timelapse feature
-// add a type for different resolution (low, mid, hi)
-// pass the resolution as param in New(...)
-
 const (
 	still     = "raspistill"
 	tlapse    = "-tl"
@@ -20,7 +15,7 @@ const (
 	height    = "-h"
 	output    = "-o"
 	filetype  = ".jpg"
-	timestamp = "2018-01-01_00:00:00"
+	timestamp = "2006-01-02_15:04:05"
 
 	defaultTimeout = 1
 )
