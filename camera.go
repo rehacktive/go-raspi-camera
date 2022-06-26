@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	still     = "raspistill"
+	still     = "libcamera-still"
 	tlapse    = "-tl"
 	timeout   = "-t"
-	width     = "-w"
-	height    = "-h"
+	width     = "--width"
+	height    = "--height"
 	output    = "-o"
 	filetype  = ".jpg"
 	timestamp = "2006-01-02_15:04:05"
