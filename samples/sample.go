@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rehacktive/go-raspi-camera"
+	camera "github.com/rehacktive/go-raspi-camera"
 )
 
 func main() {
