@@ -9,7 +9,7 @@ import (
 
 const (
 	still     = "libcamera-still"
-	tlapse    = "-tl"
+	vlip      = "--vlip"
 	timeout   = "-t"
 	width     = "--width"
 	height    = "--height"
@@ -41,6 +41,8 @@ func makeArgs(c *Camera) []string {
 	args := make([]string, 0)
 	args = append(args, timeout)
 	args = append(args, strconv.Itoa(c.timeout))
+	args = append(args, vlip)
+	args = append(args, strconv.Itoa(1))
 
 	args = append(args, width)
 	args = append(args, strconv.Itoa(c.resolution.width))
