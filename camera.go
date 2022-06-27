@@ -1,6 +1,7 @@
 package camera
 
 import (
+	"fmt"
 	"os/exec"
 	"path/filepath"
 	"strconv"
@@ -9,7 +10,7 @@ import (
 
 const (
 	still     = "libcamera-still"
-	vlip      = "--vflip"
+	vflip     = "--vflip"
 	timeout   = "-t"
 	width     = "--width"
 	height    = "--height"
@@ -41,7 +42,8 @@ func makeArgs(c *Camera) []string {
 	args := make([]string, 0)
 	args = append(args, timeout)
 	args = append(args, strconv.Itoa(c.timeout))
-	args = append(args, vlip)
+
+	args = append(args, vflip)
 	args = append(args, strconv.Itoa(1))
 
 	args = append(args, width)
@@ -72,6 +74,9 @@ func (c *Camera) Capture() (string, error) {
 	if err != nil {
 		return fullPath, err
 	}
-	cmd.Wait()
+	err = cmd.Wait()
+	if err != nil {
+		fmt.Println("error on camera command line: ", err)
+	}
 	return fullPath, nil
 }
