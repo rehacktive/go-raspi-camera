@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	c := camera.New("/ramfs", 800, 600)
+	c := camera.New("./", 800, 600)
 	s, err := c.Capture()
 	if err != nil {
 		fmt.Println("Error ", err)

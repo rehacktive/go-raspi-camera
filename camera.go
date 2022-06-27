@@ -68,15 +68,17 @@ func (c *Camera) Capture() (string, error) {
 	cmd := exec.Command(still, args...)
 	_, err := cmd.StdoutPipe()
 	if err != nil {
+		fmt.Println("error on camera command line 1: ", err)
 		return fullPath, err
 	}
 	err = cmd.Start()
 	if err != nil {
+		fmt.Println("error on camera command line 2: ", err)
 		return fullPath, err
 	}
 	err = cmd.Wait()
 	if err != nil {
-		fmt.Println("error on camera command line: ", err)
+		fmt.Println("error on camera command line 3: ", err)
 	}
 	return fullPath, nil
 }
