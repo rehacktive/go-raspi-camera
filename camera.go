@@ -9,7 +9,7 @@ import (
 
 const (
 	still     = "libcamera-still"
-	vlip      = "--vlip"
+	vlip      = "--vflip"
 	timeout   = "-t"
 	width     = "--width"
 	height    = "--height"
